@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
+import Route, { Router } from 'next/router'
 import axios from 'axios';
 
 const StyledWrapper = styled.div`
@@ -73,6 +74,11 @@ const StyledWrapper = styled.div`
          height:169px;
 
      }
+     .fff{
+        font-family:'RobotoSlab-Medium';
+        color:red;
+        font-size:20px;
+     }
      
 `
 
@@ -81,16 +87,21 @@ const Pagesignin = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const [loginStatus, setLoginStatus] = useState('Not yet logged in');
+    const [loginStatus, setLoginStatus] = useState('');
 
     const login = async () => {
         const res = await axios.post('/api/psu', { username, password });
-        try {
+
             //listing messages in users mailbox 
             setLoginStatus(JSON.stringify(res.data))
-        } catch (err) {
-            next(err);
-        }
+            if(res.data[1] !=''){
+                Route.push('/home')
+            }
+            else{
+                var text="Password Wrong"
+                setLoginStatus([...text]);
+            }
+      
     }
 
     return (
@@ -105,9 +116,9 @@ const Pagesignin = () => {
                     <input className="input100" type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
                 </div>
                 <div className="wrap-inputbutton">
-                    <button className="login100-form-btn" onClick={login}>Login</button>
+                    <button className="login100-form-btn" onClick={(login)}>Login</button>
                 </div>
-                <div style={{ color: 'blue' }}>
+                <div className="fff">
                     {loginStatus}
                 </div>
             </div>
