@@ -27,3 +27,8 @@
     font-family:'RobotoSlab-Medium';
     src:url('/static/fonts/RobotoSlab-Medium.ttf');
 }
+
+@font-face{
+    font-family:'Roboto-Black';
+    src:url('/static/fonts/Roboto-Black.ttf');
+}

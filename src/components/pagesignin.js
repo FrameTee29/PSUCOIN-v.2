@@ -2,19 +2,24 @@ import styled from 'styled-components';
 import React, { useState } from 'react';
 import Route, { Router } from 'next/router'
 import axios from 'axios';
+import {connect} from 'react-redux'
 
 const StyledWrapper = styled.div`
     height:600px;
     max-width: 500px;
     margin: 0 auto;
     padding:10px;
-    box-shadow:0 0 6px 0 rgba(0,0,0,0.15);
-    font-family:'RobotoSlab-Medium';
-    background:-webkit-linear-gradient(top, orange, #f6c700);
-    border-radius: 30px;
     justify-content: center;
     align-items: center;
+    font-family:'Roboto-Black';
+    background:white;
     font-size:42px;
+    box-shadow:0 0 6px 0 rgba(0,0,0,0.15);
+    border-radius: 30px;
+    border-color:gray;
+    border-style: solid;
+    border-width: 10px;
+
      input{
 
      }
@@ -29,7 +34,7 @@ const StyledWrapper = styled.div`
      }
      .input100{
         font-size: 20px;
-        color: #fff;
+        color: black;
         line-height: 1.2;
         display: block;
         width:100%;
@@ -38,30 +43,52 @@ const StyledWrapper = styled.div`
         border:none;
         outline: none;
         font-weight:bold;
+        transition: transform .2s;
+        text-align:center;
+        
+     }
+     .input100:hover{
+         transform: scale(1.5);  
      }
      .wrap-input{
-        width: 100%;
+        width: 50%;
         position: relative;
-        border-bottom: 2px solid rgba(255,255,255,0.24);
+        border-bottom: 2px solid rgba(0,0,0,0.24);
         margin-bottom: 30px;
+        transition: width 1.5s,border-bottom 1.5s;
      }
+     .wrap-input:hover{
+        width: 50%;
+        border-bottom: 2px solid rgba(0,0,0,0.8);
+     }
+     
+
      .login100-form-title{
         font-size: 40px;
         font-weight:bold;
-        color: #fff;
+        color: black;
         line-height: 1.2;
         text-align: center;
         text-transform: uppercase;
         display: block;
      }
+
      .login100-form-btn{
         width: 100%;
         height: 100%;
         border-radius: 25px;
         background-color: #fff;
-        border:none;
+        border-color:black;
         outline: none;
+        font-size:20px;
+        cursor: pointer;
     }
+    .login100-form-btn:hover{
+        background-color: black;
+        color: white;
+    }
+    
+
     .wrap-inputbutton{
         width: 60%;
         position: relative;
@@ -86,20 +113,27 @@ const StyledWrapper = styled.div`
 const Pagesignin = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
+    const [wrong,setWrong] = useState('')
     const [loginStatus, setLoginStatus] = useState('');
 
-    const login = async () => {
+    const login = async (props) => {
         const res = await axios.post('/api/psu', { username, password });
-
+            console.log(res.data[0],res.data[1],res.data[2],res.data[3])
             //listing messages in users mailbox 
-            setLoginStatus(JSON.stringify(res.data))
+            setLoginStatus(res.data)
+            const user ={
+                id: res.data[0],
+                firstName:res.data[1],
+                lastName:res.data[2],
+                sid:res.data[3],
+            }
+
             if(res.data[1] !=''){
-                Route.push('/home')
+                Route.push('/Counter')
             }
             else{
-                var text="Password Wrong"
-                setLoginStatus([...text]);
+                var text=" Wrong !!"
+                setWrong([...text]);
             }
       
     }
@@ -116,10 +150,10 @@ const Pagesignin = () => {
                     <input className="input100" type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
                 </div>
                 <div className="wrap-inputbutton">
-                    <button className="login100-form-btn" onClick={(login)}>Login</button>
+                    <button className="login100-form-btn" onClick={login}><span>Login</span></button>
                 </div>
                 <div className="fff">
-                    {loginStatus}
+                    {wrong}
                 </div>
             </div>
         </StyledWrapper>

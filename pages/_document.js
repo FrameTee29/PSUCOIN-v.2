@@ -1,5 +1,6 @@
 import Document, { Html, Main, NextScript,Head } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
+import { Provider } from 'react-redux'
 
 export default class MyDocument extends Document {
     static async getInitialProps(ctx) {
