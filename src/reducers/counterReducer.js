@@ -1,15 +1,15 @@
 import { INCREMENT, DECREMENT, RESET } from "../actions/types";
 
-const initialState = { counter: 10 };
+const initialState = { Frame: 10 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case INCREMENT:
-      return { counter: state.counter + 1 };
+      return { Frame: state.Frame + 1 };
     case DECREMENT:
-      return { counter: state.counter - 1 };
+      return { Frame: state.Frame - 1 };
     case RESET:
-      return { counter: 0 };
+      return { Frame: 0 };
     default:
       return state;
   }

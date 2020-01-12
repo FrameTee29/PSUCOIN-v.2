@@ -1,10 +1,17 @@
-const initialState = { user:"6035512080"};
+import { ADD_INFO } from "./types";
 
-export default function(state = initialState, action) {
-    switch (action.type) {
-      case "add_info":
-        return { counter: state.counter + 1 };
-      default:
-        return state;
-    }
+const initialState = {
+  user:[]
+};
+
+export default function (state = initialState, action) {
+  switch (action.type) {
+    case ADD_INFO:
+      return {
+        ...state,
+        user: action.payload
+      };
+    default:
+      return state;
   }
+}

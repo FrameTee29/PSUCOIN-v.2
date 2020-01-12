@@ -2,19 +2,19 @@ import React from "react";
 import { connect } from "react-redux";
 import { increment, decrement, reset } from "../src/actions/counterActions";
 
-const Counter=props=> {
+const profile=props=> {
   return (
     <div>
-      <p>{props.co}</p>
-      <button onClick={props.increment}>INCREMENT</button>
-      <button onClick={props.decrement}>DECREMENT</button>
-      <button onClick={props.reset}>RESET</button>
+      <p>ID = >{props.info[0]}</p>
+      <p>FirstName =>{props.info[1]}</p>
+      <p>LastnName =>{props.info[2]}</p>
+      <p>CardID =>{props.info[3]}</p>
     </div>
   );
 }
 
 const mapStateToProps = state => ({
-  co: state.counterReducer.Frame
+  info: state.Profile.user
 });
 
 const mapDispatchToProps = dispatch => {
@@ -25,7 +25,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Counter);
+export default connect(mapStateToProps,mapDispatchToProps)(profile);

@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import React, { useState } from 'react';
 import Route, { Router } from 'next/router'
 import axios from 'axios';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import { addProfile } from '../redux/profile/profileaction'
+import { bindActionCreators } from 'redux';
 
 const StyledWrapper = styled.div`
     height:600px;
@@ -110,32 +112,29 @@ const StyledWrapper = styled.div`
 `
 
 
-const Pagesignin = () => {
+const Pagesignin = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [wrong,setWrong] = useState('')
+    const [wrong, setWrong] = useState('')
     const [loginStatus, setLoginStatus] = useState('');
-
-    const login = async (props) => {
+    const login = async () => {
         const res = await axios.post('/api/psu', { username, password });
-            console.log(res.data[0],res.data[1],res.data[2],res.data[3])
-            //listing messages in users mailbox 
-            setLoginStatus(res.data)
-            const user ={
-                id: res.data[0],
-                firstName:res.data[1],
-                lastName:res.data[2],
-                sid:res.data[3],
-            }
 
-            if(res.data[1] !=''){
-                Route.push('/Counter')
-            }
-            else{
-                var text=" Wrong !!"
-                setWrong([...text]);
-            }
-      
+        //listing messages in users mailbox 
+        setLoginStatus(res.data)
+        
+
+        // ส่วนเงื่อนไขในการ login
+        if (res.data[1] != '') {
+            console.log(res.data);
+            props.addProfile(res.data)
+            Route.push('/profile')
+        }
+        else {
+            var text = " Wrong !!"
+            setWrong([...text]);
+        }
+
     }
 
     return (
@@ -160,4 +159,17 @@ const Pagesignin = () => {
     )
 }
 
-export default Pagesignin;
+const mapStateToProps = state => ({
+    info: state.Profile.user
+});
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addProfile: (props) =>dispatch(addProfile(props))
+  }
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Pagesignin);
