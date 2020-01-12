@@ -1,20 +1,33 @@
 import React from "react";
+import styled from 'styled-components';
 import { connect } from "react-redux";
+import Subprofile from '../src/components/subprofile'
+import Menubar from '../src/components/menubar'
+const profile = props => {
+  const StyledWrapper = styled.div`
+  width:100%;
+  height: 100vh;
+  background-image:url("/static/images/money2.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 
-const profile=props=> {
+    .container-profile{
+      display:flex;
+      width:100%;
+      justify-content: center;
+    }
+  `
   return (
-    <div>
-      <p>ID = >{props.info[0]}</p>
-      <p>FirstName =>{props.info[1]}</p>
-      <p>LastnName =>{props.info[2]}</p>
-      <p>CardID =>{props.info[3]}</p>
-    </div>
+    <StyledWrapper>
+      <Menubar />
+      <div className="container-profile">
+        <Subprofile />
+      </div>
+    </StyledWrapper>
   );
 }
 
-const mapStateToProps = state => ({
-  info: state.Profile.user
-});
 
 
-export default connect(mapStateToProps)(profile);
+export default profile;

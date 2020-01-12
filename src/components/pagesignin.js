@@ -128,7 +128,7 @@ const Pagesignin = (props) => {
         if (res.data[1] != '') {
             console.log(res.data);
             props.addProfile(res.data)
-            Route.push('/profile')
+            Route.push('/menu')
         }
         else {
             var text = " Wrong !!"

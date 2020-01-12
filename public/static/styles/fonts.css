@@ -32,3 +32,13 @@
     font-family:'Roboto-Black';
     src:url('/static/fonts/Roboto-Black.ttf');
 }
+
+@font-face{
+    font-family:'Kanit-Black';
+    src:url('/static/fonts/Kanit-Black.ttf');
+}
+
+@font-face{
+    font-family:'Kanit-Bold';
+    src:url('/static/fonts/Kanit-Bold.ttf');
+}
