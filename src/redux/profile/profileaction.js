@@ -1,5 +1,6 @@
 import { ADD_INFO } from "./types";
 
+
 export function addProfile(data) {
   return function(dispatch) {
     console.log("้ข้อมูลที่จะเก็บลง Store"+data);
@@ -7,5 +8,7 @@ export function addProfile(data) {
       payload: data});
   };
 }
+
+
 
 

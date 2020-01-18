@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Route, { Router } from 'next/router'
 import axios from 'axios';
 import { connect } from 'react-redux'
-import { addProfile } from '../redux/profile/profileaction'
+import { addProfile } from '../../redux/profile/profileaction'
 import { bindActionCreators } from 'redux';
 
 const StyledWrapper = styled.div`
@@ -122,7 +122,6 @@ const Pagesignin = (props) => {
 
         //listing messages in users mailbox 
         setLoginStatus(res.data)
-        
 
         // ส่วนเงื่อนไขในการ login
         if (res.data[1] != '') {

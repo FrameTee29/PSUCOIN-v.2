@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import Pagesignin from '../src/components/pagesignin'
-import { increment } from "../src/actions/counterActions";
+import Pagesignin from '../src/components/Signin/pagesignin'
 
 
 const StyledWrapper = styled.div`

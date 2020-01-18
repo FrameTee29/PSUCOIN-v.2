@@ -1,8 +1,8 @@
 import React from "react";
 import styled from 'styled-components';
 import { connect } from "react-redux";
-import Subprofile from '../src/components/subprofile'
-import Menubar from '../src/components/menubar'
+import Subprofile from '../src/components/profile/subprofile'
+import Menubar from '../src/components/Topbar/menubar'
 const profile = props => {
   const StyledWrapper = styled.div`
   width:100%;
