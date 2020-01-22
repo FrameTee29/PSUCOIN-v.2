@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import Route, { Router } from 'next/router'
 import axios from 'axios';
 import { connect } from 'react-redux'
-import { addProfile } from '../../redux/profile/profileaction'
-import { bindActionCreators } from 'redux';
+import { ProfileAction } from '../../redux/profile/profileaction'
+
 
 const StyledWrapper = styled.div`
     height:600px;
@@ -117,17 +117,16 @@ const Pagesignin = (props) => {
     const [password, setPassword] = useState('');
     const [wrong, setWrong] = useState('')
     const [loginStatus, setLoginStatus] = useState('');
+    const {addProfile}=props;
     const login = async () => {
         const res = await axios.post('/api/psu', { username, password });
-
         //listing messages in users mailbox 
         setLoginStatus(res.data)
 
         // ส่วนเงื่อนไขในการ login
         if (res.data[1] != '') {
-            console.log(res.data);
-            props.addProfile(res.data)
-            Route.push('/menu')
+            addProfile(res.data);
+            Route.push('/menu');
         }
         else {
             var text = " Wrong !!"
@@ -162,13 +161,10 @@ const mapStateToProps = state => ({
     info: state.Profile.user
 });
 
-const mapDispatchToProps = dispatch => {
-    return {
-        addProfile: (props) =>dispatch(addProfile(props))
-  }
-};
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         addProfile: (props) =>dispatch(addProfile(props))
+//   }
+// };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Pagesignin);
+export default connect(mapStateToProps,ProfileAction)(Pagesignin);
