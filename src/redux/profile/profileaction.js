@@ -25,7 +25,8 @@ export const ProfileAction = {
       }
       else {
         console.log("No such document!");
-        var account = web3.eth.accounts.create()
+        var account = web3.eth.accounts.create();
+        
         docRef.set({
           SID: data[0],
           firstname: data[1],

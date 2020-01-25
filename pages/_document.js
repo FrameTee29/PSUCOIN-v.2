@@ -36,6 +36,7 @@ export default class MyDocument extends Document {
                     <link rel="icon" href="/static/images/CoinHEAH.png"/>
                     <link rel="stylesheet" href="/static/styles/fonts.css"/>
                     <link rel="stylesheet" href="/static/styles/index.css"/>
+                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"></link>
                 </Head>
                 <body>
                     <Main />

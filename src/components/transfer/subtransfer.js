@@ -103,6 +103,7 @@ const StyledWrapper = styled.div`
         height:40px;
         border: none;
         outline:none;
+        font-size:20px;
         font-family:'Kanit-Bold';
         transition: font-size 0.6s,width 0.6s,border-radius 0.5s;
     }
@@ -153,6 +154,7 @@ const subtransfer = props => {
                 </div>
                 <div className="boxbutton">
                     <button className="setbutton" onClick={checkInfo}>Confirm</button>
+                    
                 </div>
 
             </div>
@@ -166,10 +168,5 @@ const mapStateToProps = state => ({
     info: state.Profile.user
 });
 
-const mapDispatchToProps = dispatch => {
-    return {
-        addProfile: (props) =>dispatch(addProfile(props))
-  }
-};
 
 export default connect(mapStateToProps)(subtransfer);
