@@ -1,7 +1,7 @@
 import { ADD_INFO } from "./types";
 
 const initialState = {
-  user:null
+  user:[]
 };
 
 export default function (state = initialState, action) {

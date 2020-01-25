@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
 import { connect } from 'react-redux'
+import working from './working';
+
 const StyledWrapper = styled.div`
     height:600px;
     max-width: 700px;
@@ -118,11 +120,17 @@ const StyledWrapper = styled.div`
 
 const subtransfer = props => {
 
-    const [toAdrress, setToAddress] = useState('');
+    const [toAddress, setToAddress] = useState('');
     const [Amount, setAmount] = useState(0);
-
-    const checkInfo=props=>{
-        console.log(""+Amount+toAdrress);
+    
+    const CreateTransfer=()=>{
+        var infotran={
+            fromAddress : props.info[0],
+            toAddress : toAddress,
+            Amount : Amount,
+        }
+        console.log(JSON.stringify(infotran));
+        working(infotran);
     }
     return (
         <StyledWrapper>
@@ -133,8 +141,8 @@ const subtransfer = props => {
                 <div>
                     FROM
                 <div className="boxfrom">
-                        <p>{props.info.SID}</p>
-                        <p>{props.info.firstname} {props.info.lastname}</p>
+                        <p>{props.info[0]}</p>
+                        <p>{props.info[1]} {props.info[2]}</p>
                         <p>Coin:</p>
                     </div>
                 </div>
@@ -153,7 +161,7 @@ const subtransfer = props => {
                     </div>
                 </div>
                 <div className="boxbutton">
-                    <button className="setbutton" onClick={checkInfo}>Confirm</button>
+                    <button className="setbutton" onClick={CreateTransfer}>Confirm</button>
                     
                 </div>
 

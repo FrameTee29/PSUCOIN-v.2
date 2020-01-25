@@ -35,10 +35,10 @@ const profile = props => {
     <StyledWrapper>
       <div className="box">
         <p className="head"><u>Profile</u></p>
-        <p>ID : <span><i>{props.info.SID}</i></span></p>
-        <p>Name : <span><i>{props.info.firstname}</i></span></p>
-        <p>Surname : <span><i>{props.info.lastname}</i></span></p>
-        <p>CardID : <span><i>{props.info.CID}</i></span></p>
+        <p>ID : <span><i>{props.info[0]}</i></span></p>
+        <p>Name : <span><i>{props.info[1]}</i></span></p>
+        <p>Surname : <span><i>{props.info[2]}</i></span></p>
+        <p>CardID : <span><i>{props.info[3]}</i></span></p>
       </div>
     </StyledWrapper>
   );

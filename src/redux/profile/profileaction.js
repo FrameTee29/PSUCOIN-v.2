@@ -6,6 +6,7 @@ const web3 = new Web3('https://ropsten.infura.io/v3/8d1234baedad4a588a49a51ac993
 export const ProfileAction = {
   addProfile: (data) => {
     const { db } = getFirebase();
+
     let info = {
       SID: data[0],
       firstname: data[1],
@@ -19,26 +20,28 @@ export const ProfileAction = {
     else{
       var docRef = db.collection('Account').doc(data[0]);
     }
-    docRef.get().then(function (doc) {
+     docRef.get().then(function (doc) {
       if (doc.exists) {
         console.log("Document data:", doc.data());
       }
       else {
         console.log("No such document!");
         var account = web3.eth.accounts.create();
-        
-        docRef.set({
+        var Adduser={
           SID: data[0],
           firstname: data[1],
           lastname: data[2],
           CID: data[3],
           PublicKey: account.address,
           privateKey: account.privateKey,
+        }
+        docRef.set({
+          Adduser
         })
         console.log("Create wallet :" + data[0] + "Successful");
       }
     })
-    return { type: ADD_INFO, payload: info }
+    return { type: ADD_INFO, payload: data }
   }
 }
 
