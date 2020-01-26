@@ -1,1 +1,0 @@
-export const CHECK_INFO = "CHECK_INFO";

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { connect } from 'react-redux'
+import getFirebase from "../../lib/firebase";
 import working from './working';
 
 const StyledWrapper = styled.div`
@@ -122,16 +123,21 @@ const subtransfer = props => {
 
     const [toAddress, setToAddress] = useState('');
     const [Amount, setAmount] = useState(0);
-    
-    const CreateTransfer=()=>{
-        var infotran={
-            fromAddress : props.info[0],
-            toAddress : toAddress,
-            Amount : Amount,
+    const [PublickeyFrom, setPublickeyFrom] = useState('');
+    const [PrivateKeyFrom, setPrivateKeyFrom] = useState('');
+    const [PublickeyTo, setPublickeyTo] = useState('');
+    const [PrivateKeyTo, setPrivateKeyTo] = useState('');
+
+    const CreateTransfer = () => {
+        var infotran = {
+            fromAddress: props.info[0],
+            toAddress: toAddress,
+            Amount: Amount,
         }
-        console.log(JSON.stringify(infotran));
         working(infotran);
+        
     }
+
     return (
         <StyledWrapper>
             <div className="toptransfer">
@@ -162,7 +168,7 @@ const subtransfer = props => {
                 </div>
                 <div className="boxbutton">
                     <button className="setbutton" onClick={CreateTransfer}>Confirm</button>
-                    
+
                 </div>
 
             </div>

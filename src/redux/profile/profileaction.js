@@ -20,28 +20,26 @@ export const ProfileAction = {
     else{
       var docRef = db.collection('Account').doc(data[0]);
     }
-     docRef.get().then(function (doc) {
+    docRef.get().then(function (doc) {
       if (doc.exists) {
         console.log("Document data:", doc.data());
       }
       else {
         console.log("No such document!");
         var account = web3.eth.accounts.create();
-        var Adduser={
+
+        docRef.set({
           SID: data[0],
           firstname: data[1],
           lastname: data[2],
           CID: data[3],
           PublicKey: account.address,
           privateKey: account.privateKey,
-        }
-        docRef.set({
-          Adduser
         })
         console.log("Create wallet :" + data[0] + "Successful");
       }
     })
-    return { type: ADD_INFO, payload: data }
+    return { type: ADD_INFO, payload: data };
   }
 }
 
