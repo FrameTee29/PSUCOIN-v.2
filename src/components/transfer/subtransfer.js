@@ -63,7 +63,7 @@ const StyledWrapper = styled.div`
             font-family:'Kanit-Bold';
             border-color:gray;
             outline: none;
-   
+            text-align:center;
             padding: 0px 10px 0px 0px;
             border-color:gray;
         }
@@ -83,6 +83,7 @@ const StyledWrapper = styled.div`
             text-align:center;
             padding: 0px 10px 0px 0px;
             border-color:gray;
+            
         }
     }
 
@@ -134,7 +135,13 @@ const subtransfer = props => {
             toAddress: toAddress,
             Amount: Amount,
         }
-        working(infotran);
+        if(props.info[0] == toAddress){
+            console.log('เปลี่ยนที่อยู่คนรับ');
+        }
+        else{
+            working(infotran);
+        }
+        
         
     }
 

@@ -14,3 +14,7 @@ body, html {
     font-size: medium;
     text-align: center;
 }
+
+.big{
+    font-size: 500px;
+}
