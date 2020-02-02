@@ -4,7 +4,7 @@ const Container = styled.div`
     display:flex;
     width:800px;
     height:600px;
-    background-color:#FFF;
+    background: linear-gradient(to top, #facb00, orange);
     flex-direction:column;
     justify-content:space-around;
     align-items: center;

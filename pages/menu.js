@@ -15,7 +15,7 @@ const menu = () => {
     .Homecontainer{
         display:flex;
         width:100%;
-        height: 100vh;
+        height: 80vh;
         justify-content:center;
         align-items:center;
     }
