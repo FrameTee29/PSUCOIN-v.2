@@ -33,7 +33,7 @@ const StyledWrapper = styled.div`
         font-size:25px;
         margin-left:30px;
         padding:0px 0px 0px 30px;
-        width:50%;
+        width:77%;
         height:180px;
         flex-direction:column;
         justify-content: center;
@@ -74,7 +74,7 @@ const StyledWrapper = styled.div`
         margin-left:30px;
         input{
             border-radius: 15px;
-            width:40%;
+            width:80%;
             height:40px;
             font-size:25px;
             font-family:'Kanit-Bold';
