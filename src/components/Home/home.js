@@ -8,6 +8,7 @@ const Container = styled.div`
     flex-direction:column;
     justify-content:space-around;
     align-items: center;
+    border-radius: 10px;
     font-family:'Roboto-Black';
 
     .Heading{
@@ -45,7 +46,7 @@ const Home = () => {
             </div>
             <div className="LayoutBox">
                 <div className="BoxOrder">
-                    Dashboard
+                    New Activity
                     <img className="BoximgActivity" src='../static/images/ACTIVITY.png' />
                 </div>
                 <div className="BoxOrder">
