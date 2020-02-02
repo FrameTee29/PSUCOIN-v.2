@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 const Menubar = styled.div`
     display: flex;
+    width:100%;
     flex-direction:row;
     justify-content: space-between;
     height: 60px;
