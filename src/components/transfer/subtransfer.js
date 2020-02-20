@@ -1,12 +1,16 @@
 import styled from 'styled-components';
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux'
-import getFirebase from "../../lib/firebase";
 import working from './working';
+const Tx = require('ethereumjs-tx').Transaction
+import getFirebase from "../../lib/firebase";
+const Web3 = require("web3");
+const web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/v3/8d1234baedad4a588a49a51ac993aaf8'))
+
 
 const StyledWrapper = styled.div`
-    height:600px;
-    max-width: 700px;
+    height:650px;
+    max-width: 800px;
     margin: 0 auto;
     padding:20px;
     justify-content: center;
@@ -96,6 +100,7 @@ const StyledWrapper = styled.div`
         display:flex;
         width:100%;
         height:80px;
+        flex-direction:column;
         justify-content: center;
         align-items: center;
         margin-right:0px;
@@ -118,6 +123,14 @@ const StyledWrapper = styled.div`
         width:80%;
         border-radius:20px;
     }
+    .hash{
+        display:flex;
+        justify-content: center;
+        margin-top:10px;
+        p{
+            font-size:15px;
+        }
+    }
 `
 
 const subtransfer = props => {
@@ -128,6 +141,8 @@ const subtransfer = props => {
     const [PrivateKeyFrom, setPrivateKeyFrom] = useState('');
     const [PublickeyTo, setPublickeyTo] = useState('');
     const [PrivateKeyTo, setPrivateKeyTo] = useState('');
+    const [hashTX, setHashTX] = useState("");
+    const [URLhashTX, setURLhashTX] = useState("");
 
     const CreateTransfer = () => {
         var infotran = {
@@ -135,14 +150,64 @@ const subtransfer = props => {
             toAddress: toAddress,
             Amount: Amount,
         }
-        if(props.info[0] == toAddress){
+        if (props.info[0] == toAddress) {
             console.log('เปลี่ยนที่อยู่คนรับ');
         }
-        else{
-            working(infotran);
+        else {
+            //working(infotran);
+            Transing(infotran);
         }
-        
-        
+    }
+
+    const Transing = (data) => {
+        const { db } = getFirebase();
+        if (data.fromAddress == '6035512080') {
+            var docFrom = db.collection('Admin').doc(data.fromAddress);
+        }
+        else {
+            var docFrom = db.collection('Account').doc(data.fromAddress);
+        }
+        var docTo = db.collection('Account').doc(data.toAddress);
+
+        // ดึงข้อมูลจาก Firebase 5555+
+        docFrom.onSnapshot((doc) => {
+            var from = [];
+            var to = [];
+            from.push(doc.data())
+            docTo.onSnapshot((doc) => {
+                to.push(doc.data())
+                // ข้อมูลคนส่ง คนรับ
+                const addressFrom = from[0].PublicKey;
+                const addressTo = to[0].PublicKey;
+                const privateKey = new Buffer(from[0].privateKey.toString().substr(2), 'hex')
+
+                //ส่งให้ใคร , จำนวน eth , gasLimit , gasPrice
+                const txData = {
+                    to: addressTo,
+                    value: web3.utils.toHex(web3.utils.toWei(data.Amount, 'ether')),
+                    gasLimit: web3.utils.toHex(21000),
+                    gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
+                }
+                console.log(txData);
+
+                //ทำ Transaction
+                web3.eth.getTransactionCount(addressFrom).then(txCount => {
+                    const newNonce = web3.utils.toHex(txCount);
+                    const transaction = new Tx({ ...txData, nonce: newNonce }, { chain: 'ropsten' });
+                    transaction.sign(privateKey);
+
+                    const serializedTx = '0x' + transaction.serialize().toString('hex')
+                    console.log('Raw ', serializedTx);
+                    //มันส่งตรงนี้แหละครับพี่น้อง 
+                    web3.eth.sendSignedTransaction(serializedTx, (err, txHash) => {
+                        console.log('txHash: ', txHash);
+                        setHashTX(txHash)
+                        setURLhashTX([...("https://ropsten.etherscan.io/tx/"+txHash)])
+
+                    })
+                })
+            })
+        })
     }
 
     return (
@@ -175,9 +240,10 @@ const subtransfer = props => {
                 </div>
                 <div className="boxbutton">
                     <button className="setbutton" onClick={CreateTransfer}>Confirm</button>
-
+                    <div className="hash">
+                        <p><a href={`https://ropsten.etherscan.io/tx/${hashTX}`}>{URLhashTX}</a></p>
+                    </div>
                 </div>
-
             </div>
 
 

@@ -6,7 +6,6 @@ const Web3 = require("web3");
 const web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/v3/8d1234baedad4a588a49a51ac993aaf8'))
 
 const working = (data) => {
-
     const { db } = getFirebase();
     if (data.fromAddress == '6035512080') {
         var docFrom = db.collection('Admin').doc(data.fromAddress);
@@ -45,10 +44,10 @@ const working = (data) => {
 
                 const serializedTx = '0x' + transaction.serialize().toString('hex')
                 console.log('Raw ', serializedTx);
-
                 //มันส่งตรงนี้แหละครับพี่น้อง 
                 web3.eth.sendSignedTransaction(serializedTx, (err, txHash) => {
                     console.log('txHash: ', txHash);
+                    
                 })
             })
         })
