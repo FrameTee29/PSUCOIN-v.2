@@ -177,82 +177,7 @@ const subtransfer = props => {
             docTo.onSnapshot((doc) => {
                 to.push(doc.data())
 
-                const contractAddr = '0x0E618c94FC648369810e0ae581964E5e631a6d82';
-                const contractAbi = [
-                    {
-                        "constant": true,
-                        "inputs": [],
-                        "name": "totalSupply",
-                        "outputs": [
-                            {
-                                "name": "",
-                                "type": "uint256"
-                            }
-                        ],
-                        "payable": false,
-                        "stateMutability": "view",
-                        "type": "function"
-                    },
-                    {
-                        "constant": true,
-                        "inputs": [
-                            {
-                                "name": "_owner",
-                                "type": "address"
-                            }
-                        ],
-                        "name": "balanceOf",
-                        "outputs": [
-                            {
-                                "name": "balance",
-                                "type": "uint256"
-                            }
-                        ],
-                        "payable": false,
-                        "stateMutability": "view",
-                        "type": "function"
-                    },
-                    {
-                        "constant": false,
-                        "inputs": [
-                            {
-                                "name": "_to",
-                                "type": "address"
-                            },
-                            {
-                                "name": "_value",
-                                "type": "uint256"
-                            }
-                        ],
-                        "name": "transfer",
-                        "outputs": [],
-                        "payable": false,
-                        "stateMutability": "nonpayable",
-                        "type": "function"
-                    },
-                    {
-                        "anonymous": false,
-                        "inputs": [
-                            {
-                                "indexed": true,
-                                "name": "from",
-                                "type": "address"
-                            },
-                            {
-                                "indexed": true,
-                                "name": "to",
-                                "type": "address"
-                            },
-                            {
-                                "indexed": false,
-                                "name": "value",
-                                "type": "uint256"
-                            }
-                        ],
-                        "name": "Transfer",
-                        "type": "event"
-                    }
-                ];
+                
                 // ข้อมูลคนส่ง คนรับ
 
                 
@@ -262,29 +187,29 @@ const subtransfer = props => {
                 const privateKey = new Buffer(from[0].privateKey.toString().substr(2), 'hex')
 
                 //ส่งให้ใคร , จำนวน eth , gasLimit , gasPrice
-                // const txData = {
-                //     to: addressTo,
-                //     value: web3.utils.toHex(web3.utils.toWei(data.Amount, 'ether')),
-                //     gasLimit: web3.utils.toHex(21000),
-                //     gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
-                // }
-                // console.log(txData);
+                const txData = {
+                    to: addressTo,
+                    value: web3.utils.toHex(web3.utils.toWei(data.Amount, 'ether')),
+                    gasLimit: web3.utils.toHex(21000),
+                    gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
+                }
+                console.log(txData);
 
-                // //ทำ Transaction
-                // web3.eth.getTransactionCount(addressFrom).then(txCount => {
-                //     const newNonce = web3.utils.toHex(txCount);
-                //     const transaction = new Tx({ ...txData, nonce: newNonce }, { chain: 'ropsten' });
-                //     transaction.sign(privateKey);
-                //     const serializedTx = '0x' + transaction.serialize().toString('hex')
-                //     console.log('Raw ', serializedTx);
-                //     //มันส่งตรงนี้แหละครับพี่น้อง 
-                //     web3.eth.sendSignedTransaction(serializedTx, (err, txHash) => {
-                //         console.log('txHash: ', txHash);
-                //         setHashTX(txHash)
-                //         setURLhashTX([...("https://ropsten.etherscan.io/tx/"+txHash)])
+                //ทำ Transaction
+                web3.eth.getTransactionCount(addressFrom).then(txCount => {
+                    const newNonce = web3.utils.toHex(txCount);
+                    const transaction = new Tx({ ...txData, nonce: newNonce }, { chain: 'ropsten' });
+                    transaction.sign(privateKey);
+                    const serializedTx = '0x' + transaction.serialize().toString('hex')
+                    console.log('Raw ', serializedTx);
+                    //มันส่งตรงนี้แหละครับพี่น้อง 
+                    web3.eth.sendSignedTransaction(serializedTx, (err, txHash) => {
+                        console.log('txHash: ', txHash);
+                        setHashTX(txHash)
+                        setURLhashTX([...("https://ropsten.etherscan.io/tx/"+txHash)])
 
-                //     })
-                // })
+                    })
+                })
             })
         })
     }
