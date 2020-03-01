@@ -187,29 +187,29 @@ const subtransfer = props => {
                 const privateKey = new Buffer(from[0].privateKey.toString().substr(2), 'hex')
 
                 //ส่งให้ใคร , จำนวน eth , gasLimit , gasPrice
-                const txData = {
-                    to: addressTo,
-                    value: web3.utils.toHex(web3.utils.toWei(data.Amount, 'ether')),
-                    gasLimit: web3.utils.toHex(21000),
-                    gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
-                }
-                console.log(txData);
+                // const txData = {
+                //     to: addressTo,
+                //     value: web3.utils.toHex(web3.utils.toWei(data.Amount, 'ether')),
+                //     gasLimit: web3.utils.toHex(21000),
+                //     gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
+                // }
+                // console.log(txData);
 
-                //ทำ Transaction
-                web3.eth.getTransactionCount(addressFrom).then(txCount => {
-                    const newNonce = web3.utils.toHex(txCount);
-                    const transaction = new Tx({ ...txData, nonce: newNonce }, { chain: 'ropsten' });
-                    transaction.sign(privateKey);
-                    const serializedTx = '0x' + transaction.serialize().toString('hex')
-                    console.log('Raw ', serializedTx);
-                    //มันส่งตรงนี้แหละครับพี่น้อง 
-                    web3.eth.sendSignedTransaction(serializedTx, (err, txHash) => {
-                        console.log('txHash: ', txHash);
-                        setHashTX(txHash)
-                        setURLhashTX([...("https://ropsten.etherscan.io/tx/"+txHash)])
+                // //ทำ Transaction
+                // web3.eth.getTransactionCount(addressFrom).then(txCount => {
+                //     const newNonce = web3.utils.toHex(txCount);
+                //     const transaction = new Tx({ ...txData, nonce: newNonce }, { chain: 'ropsten' });
+                //     transaction.sign(privateKey);
+                //     const serializedTx = '0x' + transaction.serialize().toString('hex')
+                //     console.log('Raw ', serializedTx);
+                //     //มันส่งตรงนี้แหละครับพี่น้อง 
+                //     web3.eth.sendSignedTransaction(serializedTx, (err, txHash) => {
+                //         console.log('txHash: ', txHash);
+                //         setHashTX(txHash)
+                //         setURLhashTX([...("https://ropsten.etherscan.io/tx/"+txHash)])
 
-                    })
-                })
+                //     })
+                // })
             })
         })
     }
