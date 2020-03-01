@@ -187,8 +187,9 @@ const subtransfer = props => {
                 const addressFrom = from[0].PublicKey;
                 const addressTo = to[0].PublicKey;
                 const privateKey = new Buffer(from[0].privateKey.toString().substr(2), 'hex');
-                const contractAddress = contractAddressCoin.Address();
-                const contractABI = [
+
+                const contractAddr = '0x0E618c94FC648369810e0ae581964E5e631a6d82';
+                const contractAbi = [
                     {
                         "constant": true,
                         "inputs": [],
@@ -268,64 +269,41 @@ const subtransfer = props => {
                     key: 'FDF13FBAAD8BD1E5266AC964930B9A7D49CEEF974C87BC161481413447D258C5'
                 };
 
+                sendToken(addressTo, '1');
+
+                async function sendToken(receiver, amount) {
+                    console.log(`Start to send ${amount} tokens to ${receiver}`);
+                    var count = await web3.eth.getTransactionCount(contractOwner.addr);
+                    var contract = new web3.eth.Contract(contractAbi, contractAddr, { from: addressFrom });
+                    console.log('Receiver = ' + receiver + 'Amount = ' + amount);
+                    var weiTokenAmount = web3.utils.toWei(amount, 'ether');
+
+                    var Transaction = {
+                        "from": addressFrom,
+                        "nonce": "0x" + count.toString(16),
+                        "gasPrice": "0x003B9ACA00",
+                        "gasLimit": "0x250CA",//151754
+                        "to": contractAddr,
+                        "value": "0x0",
+                        "data": contract.methods.transfer(receiver, weiTokenAmount).encodeABI(),
+                        "chainId": 0x03
+                    };
 
 
-                var count = web3.eth.getTransactionCount(contractOwner.addr);
-                var contract = new web3.eth.Contract(contractABI, contractAddress, { from: contractOwner.addr });
+                    const privKey = new Buffer.from(privateKey, 'hex');
+                    const tx = new Tx(Transaction, { chain: 'ropsten' });
+                    tx.sign(privKey);
+                    var serializedTx = tx.serialize();
+                    web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'), function (err, txHash) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        console.log('txHash: ', txHash);
+                        setHashTX(txHash)
+                        setURLhashTX([...("https://ropsten.etherscan.io/tx/" + txHash)])
+                    });
 
-                var weiTokenAmount = web3.utils.toWei(Amount, 'ether');
-
-                var Transaction = {
-                    "from": contractOwner.addr,
-                    "nonce": "0x" + count.toString(16),
-                    "gasPrice": "0x003B9ACA00",
-                    "gasLimit": "0x250CA",//151754
-                    "to": contractAddress,
-                    "value": "0x0",
-                    "data": contract.methods.transfer(receiver, weiTokenAmount).encodeABI(),
-                    "chainId": 0x03
-                };
-
-                const privKey = Buffer.from(contractOwner.key, 'hex');
-                const tx = new Tx(Transaction, { chain: 'ropsten' });
-                tx.sign(privKey);
-                var serializedTx = tx.serialize();
-                web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'), function (err, hash) {
-                    if (err) {
-                        console.log(err);
-                    }
-
-                    console.log('txHash: ', txHash);
-                    setHashTX(txHash)
-                    setURLhashTX([...("https://ropsten.etherscan.io/tx/" + txHash)])
-                });
-
-
-
-                // //ส่งให้ใคร , จำนวน eth , gasLimit , gasPrice
-                // const txData = {
-                //     to: addressTo,
-                //     value: web3.utils.toHex(web3.utils.toWei(data.Amount, 'ether')),
-                //     gasLimit: web3.utils.toHex(21000),
-                //     gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
-                // }
-                // console.log(txData);
-
-                // //ทำ Transaction
-                // web3.eth.getTransactionCount(addressFrom).then(txCount => {
-                //     const newNonce = web3.utils.toHex(txCount);
-                //     const transaction = new Tx({ ...txData, nonce: newNonce }, { chain: 'ropsten' });
-                //     transaction.sign(privateKey);
-                //     const serializedTx = '0x' + transaction.serialize().toString('hex')
-                //     console.log('Raw ', serializedTx);
-                //     //มันส่งตรงนี้แหละครับพี่น้อง 
-                //     web3.eth.sendSignedTransaction(serializedTx, (err, txHash) => {
-                //         console.log('txHash: ', txHash);
-                //         setHashTX(txHash)
-                //         setURLhashTX([...("https://ropsten.etherscan.io/tx/"+txHash)])
-
-                //     })
-                // })
+                }
             })
         })
     }
