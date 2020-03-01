@@ -263,6 +263,31 @@ const subtransfer = props => {
                         "type": "event"
                     }
                 ];
+
+                var contract = new web3.eth.Contract(contractAbi, contractAddress, { from: addressFrom });
+                var weiTokenAmount = web3.utils.toHex(web3.utils.toWei(data.Amount, 'ether'));
+                var Transaction = {
+                    "from": addressFrom,
+                    "nonce": "0x" + count.toString(16),
+                    "gasPrice": web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
+                    "gasLimit": web3.utils.toHex(21000),
+                    "to": contractAddress,
+                    "value": "0x0",
+                    "data": contract.methods.transfer(addressTo, weiTokenAmount),
+                    "chainId": 0x03
+                };
+
+                const transaction = new Tx(Transaction, { chain: 'ropsten' });
+                    transaction.sign(privateKey);
+                    const serializedTx = '0x' + transaction.serialize().toString('hex')
+                    console.log('Raw ', serializedTx);
+                    //มันส่งตรงนี้แหละครับพี่น้อง 
+                    web3.eth.sendSignedTransaction(serializedTx, (err, txHash) => {
+                        console.log('txHash: ', txHash);
+                        setHashTX(txHash)
+                        setURLhashTX([...("https://ropsten.etherscan.io/tx/"+txHash)])
+
+                    })
                 //ส่งให้ใคร , จำนวน eth , gasLimit , gasPrice
                 // const txData = {
                 //     to: addressTo,
