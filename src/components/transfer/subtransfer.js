@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux'
-import working from './working';
-const Tx = require('ethereumjs-tx').Transaction
+const working =require('./working.js');
+const Tx = require('ethereumjs-tx').Transaction;
 import getFirebase from "../../lib/firebase";
 const Web3 = require("web3");
 const web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/v3/8d1234baedad4a588a49a51ac993aaf8'))
@@ -154,7 +154,7 @@ const subtransfer = props => {
             console.log('เปลี่ยนที่อยู่คนรับ');
         }
         else {
-            //working(infotran);
+            // working(infotran);
             Transing(infotran);
         }
     }
@@ -177,107 +177,130 @@ const subtransfer = props => {
             docTo.onSnapshot((doc) => {
                 to.push(doc.data())
 
-                
+
                 // ข้อมูลคนส่ง คนรับ
 
-                
+
 
                 const addressFrom = from[0].PublicKey;
                 const addressTo = to[0].PublicKey;
                 const privateKey = new Buffer(from[0].privateKey.toString().substr(2), 'hex');
+                // var contractAddress = "0x0E618c94FC648369810e0ae581964E5e631a6d82";
+                // var contractAbi = [
+                //     {
+                //         "constant": true,
+                //         "inputs": [],
+                //         "name": "totalSupply",
+                //         "outputs": [
+                //             {
+                //                 "name": "",
+                //                 "type": "uint256"
+                //             }
+                //         ],
+                //         "payable": false,
+                //         "stateMutability": "view",
+                //         "type": "function"
+                //     },
+                //     {
+                //         "constant": true,
+                //         "inputs": [
+                //             {
+                //                 "name": "_owner",
+                //                 "type": "address"
+                //             }
+                //         ],
+                //         "name": "balanceOf",
+                //         "outputs": [
+                //             {
+                //                 "name": "balance",
+                //                 "type": "uint256"
+                //             }
+                //         ],
+                //         "payable": false,
+                //         "stateMutability": "view",
+                //         "type": "function"
+                //     },
+                //     {
+                //         "constant": false,
+                //         "inputs": [
+                //             {
+                //                 "name": "_to",
+                //                 "type": "address"
+                //             },
+                //             {
+                //                 "name": "_value",
+                //                 "type": "uint256"
+                //             }
+                //         ],
+                //         "name": "transfer",
+                //         "outputs": [],
+                //         "payable": false,
+                //         "stateMutability": "nonpayable",
+                //         "type": "function"
+                //     },
+                //     {
+                //         "anonymous": false,
+                //         "inputs": [
+                //             {
+                //                 "indexed": true,
+                //                 "name": "from",
+                //                 "type": "address"
+                //             },
+                //             {
+                //                 "indexed": true,
+                //                 "name": "to",
+                //                 "type": "address"
+                //             },
+                //             {
+                //                 "indexed": false,
+                //                 "name": "value",
+                //                 "type": "uint256"
+                //             }
+                //         ],
+                //         "name": "Transfer",
+                //         "type": "event"
+                //     }
+                // ];
 
-                var count = web3.eth.getTransactionCount(fromAddress);
-                var contractAddress = "0x0E618c94FC648369810e0ae581964E5e631a6d82";
-                var  contractAbi = [
-                    {
-                        "constant": true,
-                        "inputs": [],
-                        "name": "totalSupply",
-                        "outputs": [
-                            {
-                                "name": "",
-                                "type": "uint256"
-                            }
-                        ],
-                        "payable": false,
-                        "stateMutability": "view",
-                        "type": "function"
-                    },
-                    {
-                        "constant": true,
-                        "inputs": [
-                            {
-                                "name": "_owner",
-                                "type": "address"
-                            }
-                        ],
-                        "name": "balanceOf",
-                        "outputs": [
-                            {
-                                "name": "balance",
-                                "type": "uint256"
-                            }
-                        ],
-                        "payable": false,
-                        "stateMutability": "view",
-                        "type": "function"
-                    },
-                    {
-                        "constant": false,
-                        "inputs": [
-                            {
-                                "name": "_to",
-                                "type": "address"
-                            },
-                            {
-                                "name": "_value",
-                                "type": "uint256"
-                            }
-                        ],
-                        "name": "transfer",
-                        "outputs": [],
-                        "payable": false,
-                        "stateMutability": "nonpayable",
-                        "type": "function"
-                    },
-                    {
-                        "anonymous": false,
-                        "inputs": [
-                            {
-                                "indexed": true,
-                                "name": "from",
-                                "type": "address"
-                            },
-                            {
-                                "indexed": true,
-                                "name": "to",
-                                "type": "address"
-                            },
-                            {
-                                "indexed": false,
-                                "name": "value",
-                                "type": "uint256"
-                            }
-                        ],
-                        "name": "Transfer",
-                        "type": "event"
-                    }
-                ];
+                // var contract = new web3.eth.Contract(contractAbi, contractAddress, { from: addressFrom });
+                // var weiTokenAmount = web3.utils.toHex(web3.utils.toWei(data.Amount, 'ether'));
+                // var txData = {
+                //     "from": addressFrom,
+                //     "nonce": web3.utils.toHex(web3.eth.getTransactionCount(addressFrom)),
+                //     "gasPrice": web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
+                //     "gasLimit": web3.utils.toHex(150000),
+                //     "to": contractAddress,
+                //     "value": 0,
+                //     "data": contract.methods.transfer(addressTo, weiTokenAmount),
+                //     "chainId": 1
+                // };
 
-                var contract = new web3.eth.Contract(contractAbi, contractAddress, { from: addressFrom });
-                var weiTokenAmount = web3.utils.toHex(web3.utils.toWei(data.Amount, 'ether'));
-                var Transaction = {
-                    "from": addressFrom,
-                    "nonce": "0x" + count.toString(16),
-                    "gasPrice": web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
-                    "gasLimit": web3.utils.toHex(21000),
-                    "to": contractAddress,
-                    "value": "0x0",
-                    "data": contract.methods.transfer(addressTo, weiTokenAmount),
-                    "chainId": 0x03
-                };
+                // web3.eth.getTransactionCount(addressFrom).then(txCount => {
+                //     const transaction = new Tx(txData);
+                //     transaction.sign(privateKey);
+                //     const serializedTx = '0x' + transaction.serialize().toString('hex')
+                //     console.log('Raw ', serializedTx);
+                //     //มันส่งตรงนี้แหละครับพี่น้อง 
+                //     web3.eth.sendSignedTransaction(serializedTx, (err, txHash) => {
+                //         console.log('txHash: ', txHash);
+                //         setHashTX(txHash)
+                //         setURLhashTX([...("https://ropsten.etherscan.io/tx/" + txHash)])
 
-                const transaction = new Tx(Transaction, { chain: 'ropsten' });
+                //     })
+                // })
+                //ส่งให้ใคร , จำนวน eth , gasLimit , gasPrice
+                const txData = {
+                    to: addressTo,
+                    value: web3.utils.toHex(web3.utils.toWei(data.Amount, 'ether')),
+                    gasLimit: web3.utils.toHex(21000),
+                    gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
+                }
+                console.log(txData);
+
+                //ทำ Transaction
+                web3.eth.getTransactionCount(addressFrom).then(txCount => {
+                    const newNonce = web3.utils.toHex(txCount);
+                    const transaction = new Tx({ ...txData, nonce: newNonce }, { chain: 'ropsten' });
                     transaction.sign(privateKey);
                     const serializedTx = '0x' + transaction.serialize().toString('hex')
                     console.log('Raw ', serializedTx);
@@ -288,30 +311,7 @@ const subtransfer = props => {
                         setURLhashTX([...("https://ropsten.etherscan.io/tx/"+txHash)])
 
                     })
-                //ส่งให้ใคร , จำนวน eth , gasLimit , gasPrice
-                // const txData = {
-                //     to: addressTo,
-                //     value: web3.utils.toHex(web3.utils.toWei(data.Amount, 'ether')),
-                //     gasLimit: web3.utils.toHex(21000),
-                //     gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
-                // }
-                // console.log(txData);
-
-                // //ทำ Transaction
-                // web3.eth.getTransactionCount(addressFrom).then(txCount => {
-                //     const newNonce = web3.utils.toHex(txCount);
-                //     const transaction = new Tx({ ...txData, nonce: newNonce }, { chain: 'ropsten' });
-                //     transaction.sign(privateKey);
-                //     const serializedTx = '0x' + transaction.serialize().toString('hex')
-                //     console.log('Raw ', serializedTx);
-                //     //มันส่งตรงนี้แหละครับพี่น้อง 
-                //     web3.eth.sendSignedTransaction(serializedTx, (err, txHash) => {
-                //         console.log('txHash: ', txHash);
-                //         setHashTX(txHash)
-                //         setURLhashTX([...("https://ropsten.etherscan.io/tx/"+txHash)])
-
-                //     })
-                // })
+                })
             })
         })
     }
