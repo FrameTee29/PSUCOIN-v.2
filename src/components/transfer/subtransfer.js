@@ -184,7 +184,10 @@ const subtransfer = props => {
 
                 const addressFrom = from[0].PublicKey;
                 const addressTo = to[0].PublicKey;
-                const privateKey = new Buffer(from[0].privateKey.toString().substr(2), 'hex')
+                const privateKey = new Buffer(from[0].privateKey.toString().substr(2), 'hex');
+
+                var count = web3.eth.getTransactionCount(fromAddress);
+                
 
                 //ส่งให้ใคร , จำนวน eth , gasLimit , gasPrice
                 // const txData = {
